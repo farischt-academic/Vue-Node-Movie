@@ -1,7 +1,7 @@
 <template>
-  <div class="jumbotron">
-    <div class="container">
-      <h1 class="display-3">Bienvenue sur Ciné+</h1>
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="display-4">Bienvenue sur Ciné+</h1>
       <p>
         This is a template for a simple marketing or informational website. It
         includes a large callout called a jumbotron and three supporting pieces
