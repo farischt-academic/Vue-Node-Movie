@@ -1,11 +1,9 @@
 <template>
   <div class="album py-5">
-    <h1 class="text-center">Notre séléction de films !</h1>
-    <div class="container">
-      <div class="row">
-        <div v-for="movie in movies" :key="movie.id" class="col-md-4">
-          <movie-card :movie="movie"> </movie-card>
-        </div>
+    <h1 class="text-center display-4">Notre selection</h1>
+    <div class="row m-2">
+      <div v-for="movie in movies" :key="movie.id" class="col-md-4">
+        <movie-card :movie="movie"> </movie-card>
       </div>
     </div>
   </div>
@@ -25,7 +23,7 @@ module.exports = {
 <style scoped>
 .album {
   background-color: #e8ecef;
-  border-radius: 10px;
+  border-radius: 5px;
   color: black;
 }
 </style>
