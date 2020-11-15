@@ -5,10 +5,8 @@ const { passwordValidation } = require("../helpers/validation");
 const { loginValidation } = require("../helpers/validation");
 
 const { client } = require("../dataBase/index");
-client.connect();
 
 //! REGISTER
-
 module.exports.register = async (req, res) => {
   const { name, email, password, repeatedPassword } = req.body;
   // We first validate the user informations
@@ -49,7 +47,6 @@ module.exports.register = async (req, res) => {
 };
 
 //! LOGIN
-
 module.exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -77,7 +74,6 @@ module.exports.login = async (req, res) => {
 };
 
 //! UPDATE PASSWORD
-
 module.exports.changePassword = async (req, res) => {
   const { currentPassword, newPassword, repeatedPassword } = req.body;
 
