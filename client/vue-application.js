@@ -2,6 +2,7 @@ const Register = window.httpVueLoader("./pages/Register.vue");
 const Login = window.httpVueLoader("./pages/Login.vue");
 const Home = window.httpVueLoader("./pages/Home.vue");
 const NavBar = window.httpVueLoader("./pages/NavBar.vue");
+const Footer = window.httpVueLoader("./components/Footer.vue");
 
 const routes = [
   { path: "/", component: Home },
@@ -16,7 +17,7 @@ const router = new VueRouter({
 var app = new Vue({
   router,
   el: "#app",
-  components: { "nav-bar": NavBar },
+  components: { "nav-bar": NavBar, "footer-component": Footer },
   data: {
     userId: null,
     userName: "",
