@@ -15,48 +15,22 @@ module.exports = {
     userName: { type: String, default: "" },
     isLoggedIn: { type: Boolean, default: false },
   },
+
   components: { "home-header": HomeHeader, "movie-container": MovieContainer },
+
   data() {
     return {
-      movies: [
-        {
-          title: "MOVIE TITLE",
-          description: "gargraegaergaergeargaerg",
-          duration: "1 h 47 min",
-          id: 1,
-        },
-        {
-          title: "MOVIE TITLE",
-          description: "gargraegaergaergeargaerg",
-          duration: "1 h 47 min",
-          id: 2,
-        },
-        {
-          title: "MOVIE TITLE",
-          description: "gargraegaergaergeargaerg",
-          duration: "1 h 47 min",
-          id: 3,
-        },
-        {
-          title: "MOVIE TITLE",
-          description: "gargraegaergaergeargaerg",
-          duration: "1 h 47 min",
-          id: 4,
-        },
-        {
-          title: "MOVIE TITLE",
-          description: "gargraegaergaergeargaerg",
-          duration: "1 h 47 min",
-          id: 5,
-        },
-        {
-          title: "MOVIE TITLE",
-          description: "gargraegaergaergeargaerg",
-          duration: "1 h 47 min",
-          id: 6,
-        },
-      ],
+      movies: [],
     };
+  },
+
+  async mounted() {
+    try {
+      const fetchedMovies = await axios.get("/api/movie/");
+      this.movies = fetchedMovies.data;
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 </script>
