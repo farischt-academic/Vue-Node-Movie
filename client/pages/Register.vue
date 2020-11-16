@@ -45,7 +45,7 @@
       <button
         v-if="!disabled"
         @click.prevent="register(userInfo)"
-        class="btn btn-lg btn-primary btn-block"
+        class="btn btn-lg btn-info btn-block"
         type="submit"
       >
         S'inscrire
@@ -53,7 +53,7 @@
       <button
         v-else
         type="submit"
-        class="btn btn-lg btn-primary btn-block"
+        class="btn btn-lg btn-danger btn-block"
         disabled
       >
         S'inscrire
