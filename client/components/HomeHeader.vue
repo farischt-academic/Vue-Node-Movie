@@ -7,8 +7,8 @@
       content. Use it as a starting point to create something more unique.
     </p>
     <p>
-      <a class="btn btn-primary btn-lg" href="#" role="button"
-        >Learn more &raquo;</a
+      <a class="btn btn-info btn-lg" href="#" role="button"
+        >En savoir plus &raquo;</a
       >
     </p>
   </div>
