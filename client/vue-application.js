@@ -63,6 +63,7 @@ var app = new Vue({
         this.isLoggedIn = false;
       } catch (err) {
         console.log(err);
+        this.isLoggedIn = true;
       }
     },
   },
