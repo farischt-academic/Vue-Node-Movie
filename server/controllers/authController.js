@@ -27,7 +27,7 @@ module.exports.register = async (req, res) => {
     values: [email],
   });
 
-  if (emailCheck.rows.length > 0)
+  if (emailCheck.rows.length)
     return res.status(400).json({ errorMessage: "Email already exist." });
 
   // We can now hash the password
@@ -60,7 +60,7 @@ module.exports.login = async (req, res) => {
     text: "SELECT * FROM users WHERE email=$1",
     values: [email],
   });
-  if (rows.length === 0)
+  if (!rows.length)
     return res.status(401).json({ errorMessage: "User not found." });
 
   const user = rows[0];
@@ -88,7 +88,7 @@ module.exports.changePassword = async (req, res) => {
     values: [req.session.userId],
   });
 
-  if (rows.lenght === 0)
+  if (!rows.lenght)
     return res.status(401).json({ errorMessage: "User not found" });
 
   const { password } = rows[0];
