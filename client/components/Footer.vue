@@ -1,5 +1,5 @@
 <template>
-  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+  <footer class="bg-dark">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-md">
@@ -46,6 +46,8 @@ module.exports = {};
 
 <style scoped>
 footer {
-  background-color: white;
+  color: white;
+  padding: 40px;
+  margin-top: 10px;
 }
 </style>
