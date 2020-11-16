@@ -26,6 +26,30 @@
           <router-link class="nav-link" to="/login"> Se connecter </router-link>
         </li>
       </ul>
+      <div v-if="!isLoggedIn" class="form-inline m-2">
+        <label class="sr-only" for="email">Email</label>
+        <input
+          v-model="userInfo.email"
+          type="text"
+          name="email"
+          class="form-control mb-2 mr-sm-2"
+          id="email"
+          placeholder="Email"
+        />
+        <label class="sr-only" for="password">Mot de passe</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <input
+            v-model="userInfo.password"
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Mot de passe"
+          />
+        </div>
+        <button @click="login(userInfo)" class="btn btn-info mb-2">
+          Se connecter
+        </button>
+      </div>
       <button @click="logout()" v-if="isLoggedIn" class="btn btn-md btn-danger">
         <svg
           width="1em"
@@ -53,9 +77,21 @@ module.exports = {
     userName: { type: String, default: "" },
     isLoggedIn: { type: Boolean, default: false },
   },
+  data() {
+    return {
+      userInfo: {
+        email: "",
+        password: "",
+      },
+    };
+  },
   methods: {
     logout() {
       this.$emit("logout");
+    },
+
+    login(userInfo) {
+      this.$emit("login", userInfo);
     },
   },
 };
