@@ -38,6 +38,8 @@ var app = new Vue({
     async register(userInfo) {
       try {
         await axios.post("/api/auth/register", userInfo);
+        alert("Votre inscription est enregistrée");
+        this.$router.push("/");
       } catch (err) {
         console.log(err);
       }
@@ -61,6 +63,7 @@ var app = new Vue({
         this.userId = null;
         this.userName = "";
         this.isLoggedIn = false;
+        this.$router.push("/");
       } catch (err) {
         console.log(err);
         this.isLoggedIn = true;
