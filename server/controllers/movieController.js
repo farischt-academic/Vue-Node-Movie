@@ -49,7 +49,20 @@ module.exports.readMovie = async (req, res) => {
 };
 
 module.exports.createMovie = async (req, res) => {
-  const { title, description, /*cast,*/ url, duration, realisator } = req.body;
+  if (isNaN(parseInt(req.body.hours)) || isNaN(parseInt(req.body.minutes)))
+    return res
+      .status(400)
+      .json({ errorMessage: "Movie hours and minutes must be an integer" });
+
+  const {
+    title,
+    description,
+    url,
+    hours,
+    minutes,
+    realisator,
+    casting,
+  } = req.body;
 
   // We set a default value to rating
   const defaultRating = 0;
@@ -79,8 +92,17 @@ module.exports.createMovie = async (req, res) => {
   try {
     const { rows } = await client.query({
       text:
-        "INSERT INTO movies(title, description, url, duration, realisator, rating) VALUES ($1, $2, $3, $4, $5, $6)",
-      values: [title, description, url, duration, realisator, defaultRating],
+        "INSERT INTO movies(title, description, url, hours, minutes, realisator, casting, rating) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+      values: [
+        title,
+        description,
+        url,
+        parseInt(hours),
+        parseInt(minutes),
+        realisator,
+        casting,
+        defaultRating,
+      ],
     });
     res.json(req.body);
   } catch (err) {
@@ -95,8 +117,21 @@ module.exports.updateMovie = async (req, res) => {
       .status(400)
       .json({ errorMessage: "Movie id must be an integer" });
 
+  if (isNaN(parseInt(req.body.hours)) || isNaN(parsInt(req.body.minutes)))
+    return res
+      .status(400)
+      .json({ errorMessage: "Movie hours and minutes must be an integer" });
+
   const { movieId } = req.params;
-  const { title, description, /*cast,*/ url, duration, realisator } = req.body;
+  const {
+    title,
+    description,
+    url,
+    hours,
+    minutes,
+    realisator,
+    casting,
+  } = req.body;
 
   const { error } = movieValidation(req.body);
   if (error)
@@ -120,13 +155,15 @@ module.exports.updateMovie = async (req, res) => {
   try {
     const { rows } = await client.query({
       text:
-        "UPDATE movies SET title=$1, SET description=$2, SET url=$3, SET duration=$4, SET realisator=$5 WHERE id=$6",
+        "UPDATE movies SET title=$1, SET description=$2, SET url=$3, SET hours=$4, SET minutes=$5, SET realisator=$6, SET casting=$7 WHERE id=$8",
       values: [
         title,
         description,
         url,
-        duration,
+        parseInt(hours),
+        parseInt(minutes),
         realisator,
+        casting,
         parseInt(movieId),
       ],
     });
