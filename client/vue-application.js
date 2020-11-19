@@ -1,7 +1,7 @@
 const Register = window.httpVueLoader("./pages/Register.vue");
 const Login = window.httpVueLoader("./pages/Login.vue");
 const Home = window.httpVueLoader("./pages/Home.vue");
-const NavBar = window.httpVueLoader("./pages/NavBar.vue");
+const NavBar = window.httpVueLoader("./components/NavBar.vue");
 const Footer = window.httpVueLoader("./components/Footer.vue");
 
 const routes = [
