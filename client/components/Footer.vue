@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-dark">
+  <footer>
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-md">
@@ -49,5 +49,6 @@ footer {
   color: white;
   padding: 40px;
   margin-top: 10px;
+  background-color: black;
 }
 </style>
