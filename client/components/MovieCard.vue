@@ -8,9 +8,7 @@
     />
     <div class="card-body">
       <h1>{{ movie.title }}</h1>
-      <p class="card-text">
-        {{ movie.description }}
-      </p>
+      <p class="card-text">{{ movie.description }}</p>
       <div class="d-flex justify-content-between align-items-center">
         <div class="btn-group">
           <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -20,7 +18,9 @@
             Modifier
           </button>
         </div>
-        <small class="text-muted">Durée: {{ movie.duration }}</small>
+        <small class="text-muted"
+          >{{ movie.hours }}h{{ movie.minutes }}min</small
+        >
       </div>
     </div>
   </div>
