@@ -114,14 +114,19 @@ module.exports = {
 h1,
 p {
   text-align: center;
+  color: #353a40;
 }
 
 .container {
   margin-top: 15vh;
 }
 
+label input {
+  color: #353a40;
+}
+
 .form-signin {
-  background-color: #353a40;
+  /*background-color: #353a40;*/
   width: 100%;
   max-width: 330px;
   padding: 15px;

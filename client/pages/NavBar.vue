@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <a class="navbar-brand" href="#">Ciné +</a>
     <button
       class="navbar-toggler"
@@ -51,6 +51,7 @@
         </button>
       </div>
       <button @click="logout()" v-if="isLoggedIn" class="btn btn-md btn-danger">
+        Déconnexion
         <svg
           width="1em"
           height="1em"
@@ -98,4 +99,16 @@ module.exports = {
 </script>
 
 <style scoped>
+nav {
+  background-color: black;
+}
+
+li {
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+li:hover {
+  background-color: grey;
+}
 </style>
