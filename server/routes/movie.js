@@ -7,6 +7,7 @@ const {
   listMovies,
   readMovie,
   createMovie,
+  likeMovie,
 } = require("../controllers/movieController");
 
 // Route that list all the movies
@@ -16,5 +17,5 @@ router.get("/:movieId", readMovie);
 // Route that create a movie
 router.post("/", verifyAuth, createMovie);
 // Route that update a movie
-
+router.put("/like/:movieId", verifyAuth, likeMovie);
 module.exports = router;
