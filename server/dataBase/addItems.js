@@ -21,6 +21,7 @@ const movies = [
     hours: 3,
     minutes: 1,
     realisator: "Christopher Nolan",
+    video: "https://www.youtube.com/embed/CPTIgILtna8",
   },
   {
     title: "Interstellar",
@@ -34,10 +35,24 @@ const movies = [
       "Michael Caine",
     ],
     url:
-      "https://media.senscritique.com/media/000018762465/source_big/Interstellar.jpg",
+      "https://cinemadauphine.fr/wp-content/uploads/2014/11/matthew-mcconaughey-in-interstellar-wide.jpg",
     hours: 2,
     minutes: 10,
     realisator: "Christopher Nolan",
+    video: "https://www.youtube.com/embed/VaOijhK3CRU",
+  },
+  {
+    title: "Star Wars IX",
+    description:
+      "Environ un an après la mort de Luke Skywalker2, la Résistance tente de survivre face au Premier Ordre, désormais mené par un nouveau Suprême Leader, Kylo Ren. Une rumeur agite cependant toute la galaxie : l'Empereur Palpatine serait de retour. Tandis que Rey s'entraîne sous la houlette de la Générale Leia Organa, Kylo Ren cherche à défier Palpatine, qu'il considère comme une menace à son pouvoir.",
+    rating: 0,
+    casting: ["Daisy Ridley", "Adam Driver", "Oscar Isaac"],
+    url:
+      "https://lumiere-a.akamaihd.net/v1/images/riseofskywalker-moviepage-emeagrid-m_a2600ffe.jpeg?region=0,0,800,600",
+    hours: 2,
+    minutes: 22,
+    realisator: "J.J Abrams",
+    video: "https://www.youtube.com/embed/pHgwf2eMFnA",
   },
   /*{
     title: "",
@@ -98,7 +113,7 @@ const movies = [
 movies.forEach(async (movie) => {
   const sql = await client.query({
     text:
-      "INSERT INTO movies (title, description, rating, url, hours, minutes, realisator, casting) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+      "INSERT INTO movies (title, description, rating, url, hours, minutes, realisator, casting, video) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
     values: [
       movie.title,
       movie.description,
@@ -108,6 +123,7 @@ movies.forEach(async (movie) => {
       movie.minutes,
       movie.realisator,
       movie.casting,
+      movie.video,
     ],
   });
   console.log(sql);
