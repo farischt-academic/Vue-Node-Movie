@@ -70,7 +70,7 @@ module.exports.login = async (req, res) => {
     return res.status(401).json({ errorMessage: "Incorrect password." });
 
   req.session.userId = user.id;
-  res.json({ id: user.id, name: user.name });
+  res.json({ id: user.id, name: user.name, liked: user.liked });
 };
 
 //! UPDATE PASSWORD
@@ -125,10 +125,10 @@ module.exports.currentUser = async (req, res) => {
 
   try {
     const { rows } = await client.query({
-      text: "SELECT name, id FROM users where id=$1",
+      text: "SELECT name, id, liked FROM users where id=$1",
       values: [req.session.userId],
     });
-    res.json({ id: rows[0].id, name: rows[0].name });
+    res.json({ id: rows[0].id, name: rows[0].name, liked: rows[0].liked });
   } catch (err) {
     return res.status(500).json({ errorMessage: err });
   }
