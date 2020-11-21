@@ -69,8 +69,8 @@ module.exports = {
 .carousel-item.active,
 .carousel-item img {
   width: 100%;
-  height: 600px;
-  max-height: 600px;
+  height: 90vh;
+  max-height: 90vh;
   object-fit: fill;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -81,4 +81,10 @@ module.exports = {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
+
+/* @media screen and (max-width: 600px) {
+  .text-center.display-4 {
+    font-size: 30px;
+  }
+} */
 </style>
