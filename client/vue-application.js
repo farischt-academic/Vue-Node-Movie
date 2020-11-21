@@ -22,6 +22,7 @@ var app = new Vue({
     userId: null,
     userName: "",
     isLoggedIn: false,
+    liked: [],
   },
   async mounted() {
     try {
@@ -29,6 +30,7 @@ var app = new Vue({
       this.userId = currentUser.data.id;
       this.userName = currentUser.data.name;
       this.isLoggedIn = true;
+      this.liked = currentUser.data.liked;
     } catch (err) {
       console.log(err);
       this.isLoggedIn = false;
@@ -51,6 +53,8 @@ var app = new Vue({
         this.userId = loginResponse.data.id;
         this.userName = loginResponse.data.name;
         this.isLoggedIn = true;
+        this.liked = loginResponse.data.liked;
+        if (this.$route.path !== "/") this.$router.push("/");
       } catch (err) {
         console.log(err);
         this.isLoggedIn = false;
@@ -63,10 +67,21 @@ var app = new Vue({
         this.userId = null;
         this.userName = "";
         this.isLoggedIn = false;
-        this.$router.push("/");
+        this.liked = [];
+        if (this.$route.path !== "/") this.$router.push("/");
       } catch (err) {
         console.log(err);
         this.isLoggedIn = true;
+      }
+    },
+
+    async like(movieId) {
+      try {
+        await axios.put("/api/movie/like/" + movieId);
+        const currentUser = await axios.get("/api/auth/currentUser");
+        this.liked = currentUser.data.liked;
+      } catch (err) {
+        console.log(err);
       }
     },
   },
