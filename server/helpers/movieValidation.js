@@ -10,6 +10,7 @@ module.exports.movieValidation = (data) => {
     minutes: Joi.number().required(),
     realisator: Joi.string().min(2).max(24).required(),
     casting: Joi.array().required(),
+    video: Joi.string().min(5).max(120).required(),
   });
   return JoiSchema.validate(data);
 };
