@@ -2,7 +2,7 @@
   <div class="container">
     <home-header> </home-header>
     <movie-carousel :movies="movies"> </movie-carousel>
-    <movie-container :movies="movies"> </movie-container>
+    <movie-container :movies="movies" :liked="liked"> </movie-container>
   </div>
 </template>
 
@@ -16,6 +16,7 @@ module.exports = {
     userId: { type: Number, default: null },
     userName: { type: String, default: "" },
     isLoggedIn: { type: Boolean, default: false },
+    liked: { type: Array, default: [] },
   },
 
   components: {
