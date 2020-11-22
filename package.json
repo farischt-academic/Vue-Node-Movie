@@ -16,8 +16,7 @@
     "http-errors": "~1.6.3",
     "joi": "^17.3.0",
     "morgan": "~1.9.1",
-    "pg": "^8.4.2",
-    "slugify": "^1.4.6"
+    "pg": "^8.4.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
