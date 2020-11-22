@@ -1,13 +1,13 @@
 const Register = window.httpVueLoader("./pages/Register.vue");
-const Login = window.httpVueLoader("./pages/Login.vue");
 const Home = window.httpVueLoader("./pages/Home.vue");
+const User = window.httpVueLoader("./pages/User.vue");
 const NavBar = window.httpVueLoader("./components/NavBar.vue");
 const Footer = window.httpVueLoader("./components/Footer.vue");
 
 const routes = [
   { path: "/", component: Home },
   { path: "/register", component: Register },
-  { path: "/login", component: Login },
+  { path: "/user", component: User },
 ];
 
 const router = new VueRouter({
@@ -72,6 +72,27 @@ var app = new Vue({
       } catch (err) {
         console.log(err);
         this.isLoggedIn = true;
+      }
+    },
+
+    async addMovie(movieInfos) {
+      try {
+        await axios.post("/api/movie/", movieInfos);
+        alert("Votre ajout a été enregistré");
+      } catch (err) {
+        console.log(err);
+        alert("Une erreur est survenu");
+      }
+    },
+
+    async deleteMovie(movieId) {
+      try {
+        await axios.delete("/api/movie/delete/" + movieId);
+        const currentUser = await axios.get("/api/auth/currentUser");
+        this.liked = currentUser.data.liked;
+        alert("Le film a bien été supprimé !");
+      } catch (err) {
+        console.log(err);
       }
     },
 

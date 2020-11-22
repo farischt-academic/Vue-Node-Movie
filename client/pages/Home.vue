@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <home-header> </home-header>
-    <movie-carousel :movies="movies"> </movie-carousel>
-    <movie-container :movies="movies" :liked="liked"> </movie-container>
+    <movie-carousel> </movie-carousel>
+    <movie-container :liked="liked"> </movie-container>
   </div>
 </template>
 
@@ -13,9 +13,6 @@ const MovieCarousel = window.httpVueLoader("./components/MovieCarousel.vue");
 
 module.exports = {
   props: {
-    userId: { type: Number, default: null },
-    userName: { type: String, default: "" },
-    isLoggedIn: { type: Boolean, default: false },
     liked: { type: Array, default: [] },
   },
 
@@ -23,21 +20,6 @@ module.exports = {
     "home-header": HomeHeader,
     "movie-container": MovieContainer,
     "movie-carousel": MovieCarousel,
-  },
-
-  data() {
-    return {
-      movies: [],
-    };
-  },
-
-  async mounted() {
-    try {
-      const fetchedMovies = await axios.get("/api/movie/");
-      this.movies = fetchedMovies.data;
-    } catch (err) {
-      console.log(err);
-    }
   },
 };
 </script>

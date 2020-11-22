@@ -2,16 +2,18 @@
   <div class="jumbotron">
     <h1 class="display-4">Bienvenue sur Ciné+</h1>
     <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo aspernatur
-      est sed. Vero, blanditiis itaque. Pariatur quisquam ab repudiandae libero.
-      Illo placeat laudantium vero est ducimus explicabo consectetur, tenetur
-      nostrum quod. Doloremque corrupti, veniam totam architecto ea voluptate at
-      dolore dolorem temporibus debitis, neque deserunt sapiente rerum suscipit
-      labore hic!
+      Ciné+ est une plateforme et un service gratuit de renseignements sur des
+      films. Vous y retrouverez les dernières sorties ainsi que notre sélections
+      de films. Pensez à vous inscrire pour pouvoir profiter de toutes nos
+      fonctionnalités !
     </p>
     <p>
-      <a class="btn btn-info btn-lg" href="#" role="button"
-        >En savoir plus &raquo;</a
+      <router-link
+        to="/register"
+        class="btn btn-info btn-lg"
+        href="#"
+        role="button"
+        >S'inscrire &raquo;</router-link
       >
     </p>
   </div>

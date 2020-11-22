@@ -23,7 +23,7 @@
           </button>
           <button
             v-if="!setLiked"
-            @click.prevent="like(movie.id)"
+            @click="like(movie.id)"
             type="button"
             class="btn btn-sm btn-outline-secondary bg-info text-light"
           >
@@ -132,7 +132,6 @@ module.exports = {
   data() {
     return {
       showModal: false,
-      //internalLiked: this.liked,
     };
   },
 
@@ -143,26 +142,28 @@ module.exports = {
       } else this.showModal = false;
     },
 
-    async like() {
+    async like(movieId) {
       try {
-        await axios.put("/api/movie/like/" + this.movie.id);
+        await axios.put("/api/movie/like/" + movieId);
         const currentUser = await axios.get("/api/auth/currentUser");
         this.liked = currentUser.data.liked;
+        // this.internalLiked = currentUser.data.liked;
       } catch (err) {
         console.log(err);
       }
     },
-    /*   like(movieId) {
-      this.$emit("like", movieId);
-    },*/
   },
 
   computed: {
     setLiked: function () {
       const findLike = this.liked.find((element) => element === this.movie.id);
       if (findLike) return true;
-      else return false;
+      return false;
     },
+
+    // internalLiked: function () {
+    //   return this.liked;
+    // },
   },
 };
 </script>

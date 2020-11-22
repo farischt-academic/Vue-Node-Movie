@@ -1,35 +1,23 @@
 <template>
-  <div
-    id="carouselExampleIndicators"
-    class="carousel slide"
-    data-ride="carousel"
-  >
-    <div class="text-center display-4">Les films à la une</div>
-    <ol class="carousel-indicators">
-      <li
-        data-target="#carouselExampleIndicators"
-        data-slide-to="0"
-        class="active"
-      ></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
+  <div id="carousel" class="carousel slide" data-ride="carousel">
+    <div class="text-center display-4">Les films les mieux notés</div>
     <div class="carousel-inner">
       <div
-        v-for="(movie, index) in movies"
+        v-for="(movie, index) in mostLikedMovies"
         :key="movie.id"
-        v-bind:class="setActiveImg(index)"
+        v-bind:class="setActiveItem(index)"
       >
         <img v-bind:src="movie.url" />
         <div class="carousel-caption d-none d-md-block">
           <h5>{{ movie.title }}</h5>
           <p>{{ movie.realisator }}</p>
+          <p>{{ index + 1 }} / {{ mostLikedMovies.length }}</p>
         </div>
       </div>
     </div>
     <a
       class="carousel-control-prev"
-      href="#carouselExampleIndicators"
+      href="#carousel"
       role="button"
       data-slide="prev"
     >
@@ -38,7 +26,7 @@
     </a>
     <a
       class="carousel-control-next"
-      href="#carouselExampleIndicators"
+      href="#carousel"
       role="button"
       data-slide="next"
     >
@@ -50,12 +38,24 @@
 
 <script>
 module.exports = {
-  props: {
-    movies: { type: Array, default: [] },
+  data() {
+    return {
+      mostLikedMovies: [],
+    };
+  },
+
+  async mounted() {
+    try {
+      const res = await axios.get("/api/movie/carousel/most-liked");
+      this.mostLikedMovies = res.data;
+    } catch (err) {
+      console.log(err);
+      this.mostLikedMovies = [];
+    }
   },
 
   methods: {
-    setActiveImg(index) {
+    setActiveItem(index) {
       if (index === 0) {
         return "carousel-item active";
       }
