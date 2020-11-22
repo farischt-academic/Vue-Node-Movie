@@ -88,7 +88,7 @@ module.exports.changePassword = async (req, res) => {
     values: [req.session.userId],
   });
 
-  if (!rows.lenght)
+  if (!rows.length)
     return res.status(401).json({ errorMessage: "User not found" });
 
   const { password } = rows[0];

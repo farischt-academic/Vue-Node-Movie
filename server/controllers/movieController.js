@@ -1,9 +1,8 @@
 const { client } = require("../dataBase/index");
-const slugify = require("slugify");
 
 const { movieValidation } = require("../helpers/movieValidation");
 
-//! GET ALL MOVIES
+//! Get all movies
 module.exports.listMovies = async (req, res) => {
   try {
     // We query the database to select all the movies
@@ -22,6 +21,7 @@ module.exports.listMovies = async (req, res) => {
   }
 };
 
+//! Read a movie
 module.exports.readMovie = async (req, res) => {
   if (isNaN(parseInt(req.params.movieId)))
     return res
@@ -48,6 +48,7 @@ module.exports.readMovie = async (req, res) => {
   }
 };
 
+//! Create a movie
 module.exports.createMovie = async (req, res) => {
   if (isNaN(parseInt(req.body.hours)) || isNaN(parseInt(req.body.minutes)))
     return res
@@ -113,6 +114,7 @@ module.exports.createMovie = async (req, res) => {
   }
 };
 
+//! Update a movie
 module.exports.updateMovie = async (req, res) => {
   if (isNaN(parseInt(req.params.movieId)))
     return res
@@ -179,6 +181,7 @@ module.exports.updateMovie = async (req, res) => {
   }
 };
 
+//! Like a movie
 module.exports.likeMovie = async (req, res) => {
   if (isNaN(parseInt(req.params.movieId)))
     return res.status(400).json({ errorMessage: "Invalid movie id" });
@@ -238,6 +241,157 @@ module.exports.likeMovie = async (req, res) => {
       values: [parseInt(movieId)],
     });
     res.json({ likedMovie: movieId });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ errorMessage: err.message });
+  }
+};
+
+//! Get movies by pages
+module.exports.paginateMovies = async (req, res) => {
+  // numéro de page à laquelle on veut acceder params
+  // nombre d'élément par page   params
+
+  // if (isNaN(parseInt(req.params.pageNumber)))
+  //   return res
+  //     .status(400)
+  //     .json({ errorMessage: "page number must be an integer" });
+
+  /*  if (isNaN(parseInt(req.params.moviesPerPages)))
+    return res
+      .status(400)
+      .json({ errorMessage: "movies per page must be an integer" });*/
+
+  const { moviesPerPage, pageNumber } = req.params;
+  // const { pageNumber } = req.body;
+
+  if (!(req.session.maxPages && parseInt(pageNumber) <= req.session.maxPages))
+    return res
+      .status(400)
+      .json({ errorMessage: "The page you are trying to reach doesnt exist" });
+
+  let offset = parseInt((parseInt(pageNumber) - 1) * parseInt(moviesPerPage));
+
+  try {
+    const { rows } = await client.query({
+      text: "SELECT * FROM movies LIMIT $1 OFFSET $2",
+      values: [parseInt(moviesPerPage), offset],
+    });
+
+    if (!rows.length)
+      return res
+        .status(404)
+        .json({ errorMessage: "No movie found for your query" });
+
+    res.json(rows);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ errorMessage: err.message });
+  }
+};
+
+//! Get the maximum number of pages possible
+module.exports.numberOfPages = async (req, res) => {
+  if (isNaN(parseInt(req.params.moviesPerPage)))
+    return res
+      .status(400)
+      .json({ errorMessage: "movies per page must be an integer" });
+
+  const { moviesPerPage } = req.params;
+
+  try {
+    const { rows } = await client.query({
+      text: "SELECT COUNT(*) FROM movies",
+    });
+
+    if (!rows.length)
+      return res.status(404).json({ errorMessage: "0 page in database" });
+
+    const { count } = rows[0];
+    const numberOfPages = Math.ceil(count / parseInt(moviesPerPage));
+    req.session.maxPages = numberOfPages;
+    res.json({ numberOfPages });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ errorMessage: err.message });
+  }
+};
+
+//! Get most liked movies
+module.exports.listMostLiked = async (req, res) => {
+  const filtre = 120;
+
+  try {
+    const { rows } = await client.query({
+      text: "SELECT * FROM movies WHERE rating > $1",
+      values: [filtre],
+    });
+
+    if (!rows.length)
+      return res
+        .status(400)
+        .json({ errorMessage: `No movie has more than ${filtre} likes.` });
+
+    res.json(rows);
+  } catch (err) {
+    console.log(err);
+    return res.status(err.code).json({ errorMessage: err.message });
+  }
+};
+
+//! Delete a movie
+module.exports.deleteMovie = async (req, res) => {
+  if (isNaN(parseInt(req.params.movieId)))
+    return res.status(400).json({ errorMessage: "id must be an integer" });
+
+  const { movieId } = req.params;
+  // We first check if the id exist in db
+  try {
+    const { rows } = await client.query({
+      text: "SELECT id FROM movies WHERE id=$1",
+      values: [parseInt(movieId)],
+    });
+    if (!rows.length)
+      return res.status(400).json({ errorMessage: "invalid movie id" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ errorMessage: err.message });
+  }
+
+  // We can now delete the movie
+  try {
+    await client.query({
+      text: "DELETE FROM movies WHERE id=$1",
+      values: [parseInt(movieId)],
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ errorMessage: err.message });
+  }
+
+  // Finaly we can delete the movie from current user liked movies
+  //! Problem : it only delete from the current user and not all user who liked. Liked should have been in movies table
+  try {
+    const { rows } = await client.query({
+      text: "SELECT liked FROM users WHERE id=$1",
+      values: [req.session.userId],
+    });
+    const liked = rows[0].liked;
+    const likedItem = liked.find((element) => element === parseInt(movieId));
+    // if the current user had liked this item, we remove it
+    if (likedItem) {
+      const index = liked.findIndex((element) => {
+        element === parseInt(movieId);
+      });
+      liked.splice(index, 1);
+      await client.query({
+        text: "UPDATE users SET liked=$1 WHERE id=$2",
+        values: [liked, req.session.userId],
+      });
+      res.json(movieId);
+    }
+    // else we do nothing
+    else res.json(movieId);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ errorMessage: err.message });
